@@ -1,6 +1,6 @@
 # immdav.github.io
 
-## emby
+## [emby](/emby)
 * README.md
 * emby-server-config.png
 
