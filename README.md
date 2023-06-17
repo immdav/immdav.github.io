@@ -1,10 +1,11 @@
 # immdav.github.io
 
-## scripts
-* vacuum.sh
+## emby
+* README.md
+* emby-server-config.png
 
 ## media
-### sasl
-### mobx
-### mms
-* lognew.png
+* logonew.png
+
+## scripts
+* vacuum.sh
