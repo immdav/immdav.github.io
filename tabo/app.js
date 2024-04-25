@@ -1,3 +1,4 @@
+const ver = '2.2';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
@@ -9,6 +10,9 @@ let progress_bar = document.getElementById("progress-bar");
 let wordMaxCount = 18;
 let personMaxCount = 18;
 let maxTotal = wordMaxCount + personMaxCount;
+let startImmediately = false;
+
+console.log(`App version: ${ver}`);
 
 function detectMob() {
     const toMatch = [
@@ -67,7 +71,9 @@ function startRandomLink() {
     document.getElementById("progress-card").style.display = "block";
     word_count = words.length;
     temp = words;
-    // openRandomLink(); // Open a link immediately
+    if(startImmediately){
+        openRandomLink(); // Open a link immediately
+    }
     intId = setInterval(openRandomLink, 8000); // Open a new link every n seconds
     updateProgress();
 }
@@ -160,6 +166,7 @@ if(detectMob()) {
     wordMaxCount = 12;
     personMaxCount = 12;
     maxTotal = wordMaxCount + personMaxCount;
+    startImmediately = true;
     $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${maxTotal} words</span>`);
 }else {
     $("#device-type").html(`<span class="tag is-info"><i class="bi bi-display"></i>&ensp;Desktop</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${maxTotal} words</span>`);
