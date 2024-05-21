@@ -42,7 +42,7 @@
 
 	<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
 		<div class="navbar-brand">
-		  <a class="navbar-item" href="https://tabo.visethr.xyz">
+		  <a class="navbar-item" href="https://visethr.xyz/tabo">
 			<i class="fa-brands fa-windows fa-fade" style="color: #00bfff;"></i>
 			&emsp;Link Opener
 		  </a>
@@ -66,7 +66,16 @@
 				API
 			  </a>
 		  </div>
+
+		  <div class="navbar-end">
+			<!-- navbar items -->
+			<a class="navbar-item">
+				<i class="bi bi-git"></i>&ensp;<span id="ui-version">Version</span>
+			</a>
+		 </div>
 		</div>
+
+		
 	  </nav>
 
 	<div class="container">
@@ -79,8 +88,9 @@
 			<div class="content">
 				<h4>Link opener tool for MS Rewards</h4>
 				<p class="tags" id="device-type"></p>
-				<p>Search randomly. Click button load data to start.</p>
-				<button type="button" class="button is-primary" onclick="loadData()" id="loadButton">Load data</button>
+				<p class="ui-datetime" id="ui-datetime"></p>
+				<p>Search randomly. Click below button to start.</p>
+				<button type="button" class="button is-primary" onclick="loadData()" id="loadButton">Get words</button>
 				<button type="button" class="button is-info" onclick="startRandomLink()" id="myButton" disabled>Start</button>
 			</div>
 		</div>

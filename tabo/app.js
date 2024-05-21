@@ -1,4 +1,4 @@
-const ver = '2.3.2';
+const ver = '2.4.0';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
@@ -7,12 +7,14 @@ var counter = 0;
 var intId = 0;
 let progress_prompt = document.getElementById("progress-prompt");
 let progress_bar = document.getElementById("progress-bar");
-let wordMaxCount = 18;
-let personMaxCount = 18;
+let wordMaxCount = 16;
+let personMaxCount = 16;
 let maxTotal = wordMaxCount + personMaxCount;
 let startImmediately = false;
 
 console.log(`App version: ${ver}`);
+$('#ui-version').text(ver);
+
 
 function detectMob() {
     const toMatch = [
@@ -28,6 +30,22 @@ function detectMob() {
     return toMatch.some((toMatchItem) => {
         return navigator.userAgent.match(toMatchItem);
     });
+}
+
+function updateTime() {
+    const now = new Date();
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true
+    };
+    const formattedDate = now.toLocaleDateString(undefined, options);
+    $('#ui-datetime').html(`<i class="bi bi-clock-fill"></i> ${formattedDate}`);
+    // document.getElementById('ui-datetime').textContent = formattedDate;
 }
 
 function updateProgress() {
@@ -111,8 +129,8 @@ function getWords() {
     let totalCounter = 0;
 
     if(detectMob()) {
-        wordMaxCount = 12;
-        personMaxCount = 12;
+        wordMaxCount = 11;
+        personMaxCount = 11;
         maxTotal = wordMaxCount + personMaxCount;
     }
 
@@ -165,9 +183,13 @@ function loadData() {
     getWords();
 }
 
+updateTime();
+// Update every second
+setInterval(updateTime, 1000);
+
 if(detectMob()) {
-    wordMaxCount = 12;
-    personMaxCount = 12;
+    wordMaxCount = 11;
+    personMaxCount = 11;
     maxTotal = wordMaxCount + personMaxCount;
     startImmediately = true;
     $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${maxTotal} words</span>`);
