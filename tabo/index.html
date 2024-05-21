@@ -85,19 +85,19 @@
 			</div>
 		</div>
 
-		<div class="box">
-			<div class="content">
-				<h4 id="wordCount">Words to search</h4>
-				<div class="tags" id="word-list">
-				</div>
-			</div>
-		</div>
-
 		<div class="box" id="progress-card" style="display: none;">
 			<div class="content">
 				<h4>Progress</h4>
 				<p id="progress-prompt">Started...</p>
 				<progress id="progress-bar" class="progress is-info" value="0" max="100">0%</progress>
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="content">
+				<h4 id="wordCount">Words to search</h4>
+				<div class="tags" id="word-list">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -123,6 +123,16 @@
 				});
 			});
 
+		});
+
+		document.addEventListener('DOMContentLoaded', () => {
+			(document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+				const $notification = $delete.parentNode;
+
+				$delete.addEventListener('click', () => {
+				$notification.parentNode.removeChild($notification);
+				});
+			});
 		});
 	</script>
 	<script type="text/javascript" src="app.js"></script>
