@@ -32,6 +32,24 @@ function detectMob() {
     });
 }
 
+function stats() {
+    const uri = 'https://api.visethr.xyz/api/statistics';
+    return fetch(uri, {
+        method: 'GET'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        // You can handle errors here or rethrow them if needed
+        throw error;
+    });
+}
+
 function updateTime() {
     const now = new Date();
     const options = {
@@ -183,6 +201,14 @@ function loadData() {
     getWords();
 }
 
+stats()
+.then(data => {
+    console.log(data);
+})
+.catch(err => {
+    console.error('Error fetching data:', err);
+    // Handle errors as needed
+});
 updateTime();
 // Update every second
 setInterval(updateTime, 1000);
