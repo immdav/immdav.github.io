@@ -1,4 +1,4 @@
-const ver = '2.4.3';
+const ver = '2.4.4';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
@@ -33,7 +33,7 @@ function detectMob() {
 }
 
 function stats() {
-    const uri = 'https://api.visethr.xyz/api/statistics';
+    const uri = 'https://immd4v.pythonanywhere.com/api/statistics';
     return fetch(uri, {
         method: 'GET'
     })
