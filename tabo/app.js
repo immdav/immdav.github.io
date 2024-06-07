@@ -1,4 +1,4 @@
-const ver = '2.4.4';
+const ver = '2.4.5';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
@@ -201,14 +201,20 @@ function loadData() {
     getWords();
 }
 
-stats()
-.then(data => {
-    console.log(data);
-})
-.catch(err => {
-    console.error('Error fetching data:', err);
-    // Handle errors as needed
-});
+const urlParams = new URLSearchParams(window.location.search);
+const hitApi = urlParams.get('hitApi');
+
+if (hitApi === 'true' || !hitApi) {
+    stats()
+    .then(data => {
+        console.log(data);
+    })
+    .catch(err => {
+        console.error('Error fetching data:', err);
+        // Handle errors as needed
+    });
+}
+
 updateTime();
 // Update every second
 setInterval(updateTime, 1000);
