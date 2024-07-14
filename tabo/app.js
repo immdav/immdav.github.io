@@ -138,9 +138,9 @@ function getWords() {
     const apiUrl_randomword = 'https://api.api-ninjas.com/v1/randomword';
     const apiUrl_quotes = 'https://api.api-ninjas.com/v1/quotes';
     // proton API key
-    const myApiKey = '4I88y0CF+wwBCS077hPyww==qehGWqCdb3EInRKX';
+    // const myApiKey = '4I88y0CF+wwBCS077hPyww==qehGWqCdb3EInRKX';
     // gmail API key
-    // const myApiKey = 'oXkso28oFz1SaMGuS/PuKQ==CdMpU8qT0fwFTJVm';
+    const myApiKey = 'oXkso28oFz1SaMGuS/PuKQ==CdMpU8qT0fwFTJVm';
     const badgeColors = ['is-success', 'is-primary', 'is-warning', 'is-secondary', 'is-info', 'is-danger', 'is-dark'];
     const wordSuffix = ['definition', 'def', 'meaning', 'thesaurus', 'synonyms', 'antonyms'];
     const personSuffix = ['', 'quotes', 'biography', 'images', 'life'];
