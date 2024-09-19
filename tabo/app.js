@@ -1,4 +1,4 @@
-const ver = '2.4.8';
+const ver = '2.4.9';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
