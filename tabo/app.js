@@ -1,4 +1,4 @@
-const ver = '2.4.10';
+const ver = '2.5.0';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
@@ -7,9 +7,7 @@ var counter = 0;
 var intId = 0;
 let progress_prompt = document.getElementById("progress-prompt");
 let progress_bar = document.getElementById("progress-bar");
-let wordMaxCount = 16;
-let personMaxCount = 16;
-let maxTotal = wordMaxCount + personMaxCount;
+let stringCount = 30
 let startImmediately = false;
 
 console.log(`App version: ${ver}`);
@@ -114,12 +112,9 @@ function startRandomLink() {
     updateProgress();
 }
 
-function fetchDataWithApiKey(apiUrl, apiKey) {
+function fetchDataWithApiKey(apiUrl) {
     return fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-            'X-Api-Key': apiKey
-        }
+        method: 'GET'
     })
     .then(response => {
         if (!response.ok) {
@@ -134,71 +129,40 @@ function fetchDataWithApiKey(apiUrl, apiKey) {
     });
 }
 
-function getWords() {
-    const apiUrl_randomword = 'https://api.api-ninjas.com/v1/randomword';
-    const apiUrl_quotes = 'https://api.api-ninjas.com/v1/quotes';
-    // proton API key
-    // const myApiKey = '4I88y0CF+wwBCS077hPyww==qehGWqCdb3EInRKX';
-    // gmail API key
-    const myApiKey = 'Q8xypv3VLuockxOkcA7w1yt8La2I5an9M2pHVMal';
+function getStrings() {
+    const apiUrl_strings = `https://motionbox.pythonanywhere.com/api/random/string/get?count=${stringCount}`
     const badgeColors = ['is-success', 'is-primary', 'is-warning', 'is-secondary', 'is-info', 'is-danger', 'is-dark'];
-    const wordSuffix = ['definition', 'def', 'meaning', 'thesaurus', 'synonyms', 'antonyms'];
-    const personSuffix = ['', 'quotes', 'biography', 'images', 'life'];
-    let totalCounter = 0;
 
-    if(detectMob()) {
-        wordMaxCount = 11;
-        personMaxCount = 11;
-        maxTotal = wordMaxCount + personMaxCount;
-    }
+    // if(detectMob()) {
+    //     wordMaxCount = 11;
+    //     personMaxCount = 11;
+    //     maxTotal = wordMaxCount + personMaxCount;
+    // }
 
     // Get random words from API
-    for(let x=0; x < wordMaxCount; x++) {
-        fetchDataWithApiKey(apiUrl_randomword, myApiKey)
-            .then(data => {
-                let randomIndex = Math.floor(Math.random() * badgeColors.length);
-                let suffixIndex = Math.floor(Math.random() * wordSuffix.length);
-                let word = `${data['word']} ${wordSuffix[suffixIndex]}`;
-                words.push(word);
-                document.getElementById("word-list").innerHTML += `<span class="tag ${badgeColors[randomIndex]}">${word}</span>`;
-                totalCounter += 1;
-                document.getElementById("wordCount").innerHTML = `${totalCounter} words to search`;
-                if(words.length >= maxTotal) {
-                    document.getElementById("myButton").disabled = false;
-                }
-            })
-            .catch(err => {
-                console.error('Error fetching data:', err);
-                // Handle errors as needed
-            });
-    }
 
-    // Get random person from quotes API
-    for(let x=0; x < personMaxCount; x++) {
-        fetchDataWithApiKey(apiUrl_quotes, myApiKey)
-            .then(data => {
-                randomIndex = Math.floor(Math.random() * badgeColors.length);
-                let suffixIndex = Math.floor(Math.random() * personSuffix.length);
-                let author = `${data[0]['author']} ${personSuffix[suffixIndex]}`;
-                words.push(author);
-                document.getElementById("word-list").innerHTML += `<span class="tag ${badgeColors[randomIndex]}">${author}</span>`;
-                totalCounter += 1;
-                document.getElementById("wordCount").innerHTML = `${totalCounter} words to search`;
-                if(words.length >= maxTotal) {
-                    document.getElementById("myButton").disabled = false;
-                }
-            })
-            .catch(err => {
-                console.error('Error fetching data:', err);
-                // Handle errors as needed
-            });
-    }
+    fetchDataWithApiKey(apiUrl_strings)
+        .then(data => {
+            words = data['response']['strings'];
+            document.getElementById("wordCount").innerHTML = `${stringCount} words to search`;
+            for (let word of words) {
+                let randomIndex = Math.floor(Math.random() * badgeColors.length);
+                console.log(word);
+                document.getElementById("word-list").innerHTML += `<span class="tag ${badgeColors[randomIndex]}">${word}</span>`;
+            }
+            document.getElementById("myButton").disabled = false;
+        })
+        .catch(err => {
+            console.error('Error fetching data:', err);
+            // Handle errors as needed
+        });
+    
 }
 
 // getWords();
 function loadData() {
     document.getElementById("loadButton").disabled = true;
-    getWords();
+    getStrings();
 }
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -220,11 +184,9 @@ updateTime();
 setInterval(updateTime, 1000);
 
 if(detectMob()) {
-    wordMaxCount = 11;
-    personMaxCount = 11;
-    maxTotal = wordMaxCount + personMaxCount;
+    stringCount = 20;
     startImmediately = true;
-    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${maxTotal} words</span>`);
+    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
 }else {
-    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-display"></i>&ensp;Desktop</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${maxTotal} words</span>`);
+    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-display"></i>&ensp;Desktop</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
 }
