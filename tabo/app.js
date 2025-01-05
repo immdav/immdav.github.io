@@ -1,10 +1,11 @@
-const ver = '2.5.0';
+const ver = '2.5.1';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
 var temp = [];
 var counter = 0;
 var intId = 0;
+var platform = 'desktop';
 let progress_prompt = document.getElementById("progress-prompt");
 let progress_bar = document.getElementById("progress-bar");
 let stringCount = 30
@@ -31,9 +32,16 @@ function detectMob() {
 }
 
 function stats() {
-    const uri = 'https://motionbox.pythonanywhere.com/api/statistics';
+    const uri = 'https://motionbox.pythonanywhere.com/v2/api/statistics';
+    const data = { 
+        ui_version: ver, 
+        platform: platform,
+        app: 'tabo'
+    };
     return fetch(uri, {
-        method: 'GET'
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data)
     })
     .then(response => {
         if (!response.ok) {
@@ -167,6 +175,14 @@ function loadData() {
 
 const urlParams = new URLSearchParams(window.location.search);
 const hitApi = urlParams.get('hitApi');
+if(detectMob()) {
+    stringCount = 20;
+    startImmediately = true;
+    platform = 'mobile';
+    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
+}else {
+    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-display"></i>&ensp;Desktop</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
+}
 
 if (hitApi === 'true' || !hitApi) {
     stats()
@@ -183,10 +199,3 @@ updateTime();
 // Update every second
 setInterval(updateTime, 1000);
 
-if(detectMob()) {
-    stringCount = 20;
-    startImmediately = true;
-    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
-}else {
-    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-display"></i>&ensp;Desktop</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
-}
