@@ -1,4 +1,4 @@
-const ver = '2.5.1';
+const ver = '2.5.2';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
@@ -8,7 +8,7 @@ var intId = 0;
 var platform = 'desktop';
 let progress_prompt = document.getElementById("progress-prompt");
 let progress_bar = document.getElementById("progress-bar");
-let stringCount = 30
+let stringCount = 32
 let startImmediately = false;
 
 console.log(`App version: ${ver}`);
@@ -176,7 +176,7 @@ function loadData() {
 const urlParams = new URLSearchParams(window.location.search);
 const hitApi = urlParams.get('hitApi');
 if(detectMob()) {
-    stringCount = 20;
+    stringCount = 22;
     startImmediately = true;
     platform = 'mobile';
     $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
