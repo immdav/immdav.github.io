@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link Opener Tool</title>
+    <title>Settings</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 	<script src="https://kit.fontawesome.com/23fcf13e4a.js" crossorigin="anonymous"></script>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous"> -->
@@ -38,6 +38,17 @@
 		.badge {
 		    margin-right: 5px;
 		}
+		.field-label {
+			text-align: unset !important;
+			flex-grow: unset !important;
+			flex-basis: unset !important;
+		}
+		.input {
+			width: 20%;
+		}
+		.label {
+			font-weight: unset !important;
+		}
 	</style>
 
 	<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -62,6 +73,22 @@
 			<a class="navbar-item" href="https://rewards.bing.com/pointsbreakdown">
 			  Points
 			</a>
+			
+
+			<div class="navbar-item has-dropdown is-hoverable">
+			<a class="navbar-link">
+				API
+			</a>
+	
+			<div class="navbar-dropdown">
+				<a class="navbar-item" href="https://api-ninjas.com/">
+					API Ninjas
+				</a>
+				<a class="navbar-item" href="https://bulma.io/documentation/components">
+					Bulma
+				</a>
+			</div>
+			</div>
 		  </div>
 
 		  <div class="navbar-end">
@@ -76,40 +103,72 @@
 	  </nav>
 
 	<div class="container">
-		<div class="notification is-warning is-light">
-			<button class="delete"></button>
-			<i class="bi bi-info-circle" style="color: #946c00"></i>&ensp;Make sure to enable pop-ups and redirects for this site before starting.
-		</div>
+		<div class="columns">
+			<div class="column is-three-quarters">
+				<div class="box">
+					<div class="content">
+						<h4>Settings</h4>
+						<p class="ui-datetime" id="ui-datetime"></p>
+						<div class="field">
+							<div class="control">
+							<label class="checkbox">
+								<input type="checkbox" id="settings-hitapi">
+								Trigger API notification access on load.
+							</label>
+							</div>
+						</div>
+						
+						<div class="field">
+							<div class="control">
+							<label class="checkbox">
+								<input type="checkbox" id="settings-autostart">
+								No delay will be applied after clicking Start button.
+							</label>
+							</div>
+						</div>
 
-		<div class="box">
-			<div class="content">
-				<h4>Link opener tool for MS Rewards</h4>
-				<p class="tags">
-					<span class="tag is-info" id="platform"></span>
-					<span class="tag is-success" id="string-count"></span>
-				</p>
-				<p class="ui-datetime" id="ui-datetime"></p>
-				<p>Search randomly. Click below button to start.</p>
-				<button type="button" class="button is-primary" onclick="loadData()" id="loadButton">Get words</button>
-				<button type="button" class="button is-info" onclick="startRandomLink()" id="myButton" disabled>Start</button>
+						<div class="field">
+							<div class="control">
+							<label class="checkbox" disabled>
+								<input type="checkbox" id="settings-autoclose" disabled>
+								Automatically close the app when the search is complete.
+							</label>
+							</div>
+						</div>
+
+						<div class="field is-horizontal">
+							<div class="field-label is-normal">
+							  <label class="label">String count</label>
+							</div>
+							<div class="field-body">
+							  <div class="field">
+								<p class="control">
+								  <input class="input" type="number" placeholder="30" min="0" step="1" id="settings-stringcount"/>
+								</p>
+							  </div>
+							</div>
+						</div>
+
+						<p>App will open with the chosen settings after applying settings.</p>
+						<button type="button" class="button is-primary" onclick="openURI()" id="openLink">Apply Settings</button>
+					</div>
+				</div>
 			</div>
-		</div>
 
-		<div class="box" id="progress-card" style="display: none;">
-			<div class="content">
-				<h4>Progress</h4>
-				<p id="progress-prompt">Started...</p>
-				<progress id="progress-bar" class="progress is-info" value="0" max="100">0%</progress>
-			</div>
-		</div>
-
-		<div class="box">
-			<div class="content">
-				<h4 id="wordCount">Words to search</h4>
-				<div class="tags" id="word-list">
+			<div class="column">
+				<div class="box">
+					<div class="content">
+						<h4>About</h4>
+						<!-- <p class="tags" id="device-type"></p> -->
+						<p style="word-wrap: break-word;">Device Session Hash: <strong id="about-devicehash"></strong></p>
+						<p>UI Version: <strong id="about-ui-version"></strong></p>
+						<p>API Version: <strong id="about-api-version"></strong></p>
+						<p>Platform: <strong id="about-platform"></strong></p>
+					</div>
 				</div>
 			</div>
 		</div>
+
 	</div>
 
 	<script>
@@ -146,6 +205,6 @@
 		});
 	</script>
 	<script type="text/javascript" src="vars.js"></script>
-	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="settings.js"></script>
 </body>
 </html>

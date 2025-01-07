@@ -1,35 +1,6 @@
-const ver = '2.5.2';
-var ms_points = 'https://rewards.bing.com/pointsbreakdown';
-var words = [];
-var word_count = 0;
-var temp = [];
-var counter = 0;
-var intId = 0;
-var platform = 'desktop';
-let progress_prompt = document.getElementById("progress-prompt");
-let progress_bar = document.getElementById("progress-bar");
-let stringCount = 32
-let startImmediately = false;
-
 console.log(`App version: ${ver}`);
 $('#ui-version').text(ver);
 
-
-function detectMob() {
-    const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i
-    ];
-    
-    return toMatch.some((toMatchItem) => {
-        return navigator.userAgent.match(toMatchItem);
-    });
-}
 
 function stats() {
     const uri = 'https://motionbox.pythonanywhere.com/v2/api/statistics';
@@ -175,13 +146,36 @@ function loadData() {
 
 const urlParams = new URLSearchParams(window.location.search);
 const hitApi = urlParams.get('hitApi');
+const URLautoClose = urlParams.get('autoClose');
+const URLautoStart = urlParams.get('autoStart');
+const URLstringCount = urlParams.get('stringCount');
+
 if(detectMob()) {
     stringCount = 22;
     startImmediately = true;
     platform = 'mobile';
-    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
+    $("#platform").html(`<i class="bi bi-phone"></i>&ensp;Mobile`);
+    
+    // $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
 }else {
-    $("#device-type").html(`<span class="tag is-info"><i class="bi bi-display"></i>&ensp;Desktop</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
+    $("#platform").html(`<i class="bi bi-display"></i>&ensp;Desktop`);
+}
+
+
+// Initialize URL Parameters
+
+if (URLstringCount) {
+    stringCount = URLstringCount;
+    console.log(`stringCount: ${stringCount}`);
+    $("#string-count").html(`<i class="bi bi-stack"></i>&ensp;${stringCount} words`);
+    // $("#device-type").html(`<span class="tag is-info"><i class="bi bi-phone"></i>&ensp;Mobile</span><span class="tag is-success"><i class="bi bi-stack"></i>&ensp;${stringCount} words</span>`);
+}else {
+    $("#string-count").html(`<i class="bi bi-stack"></i>&ensp;${stringCount} words`);
+}
+
+if (URLautoStart) {
+    startImmediately = URLautoStart;
+    console.log(`startImmediately: ${startImmediately}`);
 }
 
 if (hitApi === 'true' || !hitApi) {
@@ -193,6 +187,11 @@ if (hitApi === 'true' || !hitApi) {
         console.error('Error fetching data:', err);
         // Handle errors as needed
     });
+}
+
+if (URLautoClose) {
+    autoClose = URLautoClose;
+    console.log(`autoClose: ${autoClose}`);
 }
 
 updateTime();
