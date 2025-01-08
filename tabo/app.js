@@ -2,12 +2,13 @@ console.log(`App version: ${ver}`);
 $('#ui-version').text(ver);
 
 
-function stats() {
-    const uri = 'https://motionbox.pythonanywhere.com/v2/api/statistics';
+async function stats() {
+    const uri = 'https://motionbox.pythonanywhere.com/api/tabo/statistics';
     const data = { 
         ui_version: ver, 
         platform: platform,
-        app: 'tabo'
+        app: 'tabo',
+        device_hash: dHash  
     };
     return fetch(uri, {
         method: 'POST',
