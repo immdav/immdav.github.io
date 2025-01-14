@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+}
+    </style>
+    <h5>IP address: <span id="ip"></span></h5>
+    <h5>City: <span id="city"></span></h5>
+    <h5>Region: <span id="region"></span></h5>
+    <h5>Location: <span id="loc"></span></h5>
+    <h5>Country: <span id="country"></span></h5>
+    <h5>Org: <span id="org"></span></h5>
+    <h5>Postal: <span id="postal"></span></h5>
+    <h5>Timezone: <span id="tz"></span></h5>
+
+	<script>
+        function get_ip_info(deviceHash) {
+            let uri = 'https://motionbox.pythonanywhere.com/api/random/iplookup/get';
+            return fetch(uri, {
+                method: 'GET'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                // You can handle errors here or rethrow them if needed
+                throw error;
+            });
+        }
+
+        get_ip_info()
+        .then(data => {
+            // console.log(data);
+            let res = data["response"];
+            $("#ip").html(res["ip"]);
+            $("#city").html(res["city"]);
+            $("#region").html(res["region"]);
+            $("#loc").html(res["loc"]);
+            $("#country").html(res["country"]);
+            $("#org").html(res["org"]);
+            $("#postal").html(res["postal"]);
+            $("#tz").html(res["timezone"]);
+
+        })
+        .catch(err => {
+            console.error('Error fetching data:', err);
+            // Handle errors as needed
+      });
+
+	</script>
+</body>
+</html>
