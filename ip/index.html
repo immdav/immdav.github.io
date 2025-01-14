@@ -9,8 +9,12 @@
 <body>
     <style>
         body {
-    font-family: Arial, sans-serif;
-}
+            font-family: Arial, sans-serif;
+        }
+        h5 {
+            margin-top: unset;
+            margin-bottom: unset;
+        }
     </style>
     <h5>IP address: <span id="ip"></span></h5>
     <h5>City: <span id="city"></span></h5>
@@ -22,8 +26,14 @@
     <h5>Timezone: <span id="tz"></span></h5>
 
 	<script>
-        function get_ip_info(deviceHash) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const url_ip = urlParams.get('ip');
+
+        function get_ip_info(ip_address) {
             let uri = 'https://motionbox.pythonanywhere.com/api/random/iplookup/get';
+            if(ip_address) {
+                uri = `https://motionbox.pythonanywhere.com/api/random/iplookup/get?ip=${ip_address}`;
+            }
             return fetch(uri, {
                 method: 'GET'
             })
@@ -40,7 +50,7 @@
             });
         }
 
-        get_ip_info()
+        get_ip_info(url_ip)
         .then(data => {
             // console.log(data);
             let res = data["response"];
