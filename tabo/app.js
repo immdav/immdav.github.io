@@ -94,7 +94,8 @@ function startRandomLink() {
 
 function fetchDataWithApiKey(apiUrl) {
     return fetch(apiUrl, {
-        method: 'GET'
+        method: 'GET',
+        headers: { 'X-Device-Hash': dHash }
     })
     .then(response => {
         if (!response.ok) {

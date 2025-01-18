@@ -20,7 +20,7 @@ function generateRandomHash() {
     return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-const ver = '2.5.4';
+const ver = '2.5.5';
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 var words = [];
 var word_count = 0;
