@@ -17,6 +17,7 @@ async function stats() {
     })
     .then(response => {
         if (!response.ok) {
+            alert("Something went wrong! Please refresh the page or contact site owner!");
             throw new Error('Network response was not ok');
         }
         return response.json();
@@ -99,6 +100,7 @@ function fetchDataWithApiKey(apiUrl) {
     })
     .then(response => {
         if (!response.ok) {
+            alert("Something went wrong! Please refresh the page or contact site owner!");
             throw new Error('Network response was not ok');
         }
         return response.json();
