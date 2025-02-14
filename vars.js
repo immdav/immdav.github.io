@@ -59,5 +59,20 @@ if (localStorage.getItem("dsx_hash")) {
     localStorage.setItem("dsx_hash", gHash);
     dHash = gHash;
 }
+console.log(`Version: ${ver}`);
 
-stats();
+const urlParams = new URLSearchParams(window.location.search);
+const hitApi = urlParams.get('hitApi');
+
+// Initialize URL Parameters
+
+if (hitApi === 'true' || !hitApi) {
+    stats()
+    .then(data => {
+        console.log(data);
+    })
+    .catch(err => {
+        console.error('Error fetching data:', err);
+        // Handle errors as needed
+    });
+}
