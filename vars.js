@@ -1,0 +1,63 @@
+const apiUrl = `https://motionbox.pythonanywhere.com/api/tabo/statistics`;
+
+function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+    
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+}
+
+function generateRandomHash(count) {
+    const array = new Uint8Array(count);
+    window.crypto.getRandomValues(array);
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function stats() {
+    const data = { 
+        ui_version: ver, 
+        platform: platform,
+        app: 'root',
+        device_hash: dHash  
+    };
+    return fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            alert("Something went wrong! Please refresh the page or contact site owner!");
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        // You can handle errors here or rethrow them if needed
+        throw error;
+    });
+}
+
+
+const ver = '1.0';
+var platform = 'desktop';
+let dHash = null;
+if (localStorage.getItem("dsx_hash")) {
+    dHash = localStorage.getItem("dsx_hash");
+} else {
+    let gHash = generateRandomHash(20)
+    localStorage.setItem("dsx_hash", gHash);
+    dHash = gHash;
+}
+
+stats();
