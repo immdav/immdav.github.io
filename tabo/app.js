@@ -3,16 +3,19 @@ $('#ui-version').text(ver);
 
 
 async function stats() {
-    const uri = 'https://motionbox.pythonanywhere.com/api/tabo/statistics';
     const data = { 
         ui_version: ver, 
         platform: platform,
         app: 'tabo',
-        device_hash: dHash  
+        device_hash: dHash,
+        referrer_link: referrerLink
     };
-    return fetch(uri, {
+    return fetch(uriStats, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }, 
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-Session-Id': session
+        }, 
         body: JSON.stringify(data)
     })
     .then(response => {
@@ -96,7 +99,10 @@ function startRandomLink() {
 function fetchDataWithApiKey(apiUrl) {
     return fetch(apiUrl, {
         method: 'GET',
-        headers: { 'X-Device-Hash': dHash }
+        headers: { 
+            'X-Device-Hash': dHash,
+            'X-Session-Id': session
+        }
     })
     .then(response => {
         if (!response.ok) {

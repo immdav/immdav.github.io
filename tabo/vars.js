@@ -14,14 +14,16 @@ function detectMob() {
     });
 }
 
-function generateRandomHash() {
-    const array = new Uint8Array(20);
+function generateRandomHash(count) {
+    const array = new Uint8Array(count);
     window.crypto.getRandomValues(array);
     return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-const ver = '2.5.5';
+const ver = '2.5.6';
+const referrerLink = document.referrer;
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
+const uriStats = 'https://motionbox.pythonanywhere.com/api/tabo/statistics';
 var words = [];
 var word_count = 0;
 var temp = [];
@@ -34,11 +36,12 @@ let stringCount = 32
 let startImmediately = false;
 let autoClose = false;
 let dHash = null;
+let session = generateRandomHash(8);
 
 if (localStorage.getItem("dsx_hash")) {
     dHash = localStorage.getItem("dsx_hash");
 } else {
-    let gHash = generateRandomHash()
+    let gHash = generateRandomHash(20)
     localStorage.setItem("dsx_hash", gHash);
     dHash = gHash;
 }

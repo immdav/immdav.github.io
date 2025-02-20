@@ -27,7 +27,8 @@ async function stats() {
         ui_version: ver, 
         platform: platform,
         app: 'root',
-        device_hash: dHash  
+        device_hash: dHash,
+        referrer_link: referrerLink
     };
     return fetch(apiUrl, {
         method: 'POST',
@@ -49,7 +50,8 @@ async function stats() {
 }
 
 
-const ver = '1.0';
+const ver = '1.0.1';
+const referrerLink = document.referrer;
 var platform = 'desktop';
 let dHash = null;
 if (localStorage.getItem("dsx_hash")) {
