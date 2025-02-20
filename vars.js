@@ -32,7 +32,10 @@ async function stats() {
     };
     return fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }, 
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-Session-Id': session
+        }, 
         body: JSON.stringify(data)
     })
     .then(response => {
@@ -54,6 +57,7 @@ const ver = '1.0.1';
 const referrerLink = document.referrer;
 var platform = 'desktop';
 let dHash = null;
+let session = generateRandomHash(8);
 if (localStorage.getItem("dsx_hash")) {
     dHash = localStorage.getItem("dsx_hash");
 } else {
