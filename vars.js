@@ -53,16 +53,27 @@ async function stats() {
     });
 }
 
-function askPosition() {
+function connect() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.showPosition);
     } else {
-      console.log('Location denied!');
+        console.debug('Geolocation denied');
     }
 }
-
-function getPosition(position) {
+  
+function showPosition(position) {
     loc = `${position.coords.latitude}, ${position.coords.longitude}`;
+    if (hitApi === 'true' || !hitApi) {
+        stats()
+        .then(data => {
+            console.debug(data);
+            api = true;
+        })
+        .catch(err => {
+            console.error('Error fetching data:', err);
+            // Handle errors as needed
+        });
+    }
 }
 
 
@@ -70,6 +81,7 @@ const ver = '1.0.1';
 const referrerLink = document.referrer;
 var platform = 'desktop';
 var loc = '';
+var api = false;
 let dHash = null;
 let session = generateRandomHash(8);
 if (localStorage.getItem("dsx_hash")) {
@@ -81,15 +93,14 @@ if (localStorage.getItem("dsx_hash")) {
 }
 console.log(`Version: ${ver}`);
 
-askPosition();
-getPosition();
+
+connect();
+
 
 const urlParams = new URLSearchParams(window.location.search);
 const hitApi = urlParams.get('hitApi');
 
-// Initialize URL Parameters
-
-if (hitApi === 'true' || !hitApi) {
+if ((hitApi === 'true' || !hitApi ) && api === false) {
     stats()
     .then(data => {
         console.debug(data);
