@@ -81,7 +81,7 @@ if (localStorage.getItem("dsx_hash")) {
 }
 console.log(`Version: ${ver}`);
 
-connect();
+askPosition();
 getPosition();
 
 const urlParams = new URLSearchParams(window.location.search);
