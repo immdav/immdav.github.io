@@ -34,7 +34,8 @@ async function stats() {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
-            'X-Session-Id': session
+            'X-Session-Id': session,
+            'X-User-Loc': loc
         }, 
         body: JSON.stringify(data)
     })
@@ -52,10 +53,23 @@ async function stats() {
     });
 }
 
+function askPosition() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.showPosition);
+    } else {
+      console.log('Location denied!');
+    }
+}
+
+function getPosition(position) {
+    loc = `${position.coords.latitude}, ${position.coords.longitude}`;
+}
+
 
 const ver = '1.0.1';
 const referrerLink = document.referrer;
 var platform = 'desktop';
+var loc = '';
 let dHash = null;
 let session = generateRandomHash(8);
 if (localStorage.getItem("dsx_hash")) {
@@ -67,6 +81,9 @@ if (localStorage.getItem("dsx_hash")) {
 }
 console.log(`Version: ${ver}`);
 
+connect();
+getPosition();
+
 const urlParams = new URLSearchParams(window.location.search);
 const hitApi = urlParams.get('hitApi');
 
@@ -75,7 +92,7 @@ const hitApi = urlParams.get('hitApi');
 if (hitApi === 'true' || !hitApi) {
     stats()
     .then(data => {
-        console.log(data);
+        console.debug(data);
     })
     .catch(err => {
         console.error('Error fetching data:', err);
