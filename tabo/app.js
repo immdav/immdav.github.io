@@ -60,6 +60,14 @@ function positionError(error){
             console.log("An unknown error occurred.");
             break;
     }
+    stats()
+    .then(data => {
+        apiStats = true;
+    })
+    .catch(err => {
+        console.error('Error fetching data:', err);
+        // Handle errors as needed
+    });
     $("#loadButton").html(`Get words`);
     $("#myButton").html(`Start`);
 }
