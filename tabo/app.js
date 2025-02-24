@@ -1,7 +1,6 @@
 console.log(`App version: ${ver}`);
 $('#ui-version').text(ver);
 
-
 async function stats() {
     const data = { 
         ui_version: ver, 
@@ -14,7 +13,8 @@ async function stats() {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
-            'X-Session-Id': session
+            'X-Session-Id': session,
+            'X-User-Loc': userLoc
         }, 
         body: JSON.stringify(data)
     })
@@ -29,6 +29,57 @@ async function stats() {
         console.error('Error fetching data:', error);
         // You can handle errors here or rethrow them if needed
         throw error;
+    });
+}
+
+function connect() {
+    if(skipGeo){
+        document.getElementById("loadButton").disabled = false;
+    }else {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.showPosition, this.positionError);
+        } else {
+            console.debug('Geolocation not supported!');
+        }
+    }
+}
+
+function positionError(error){
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            console.log("User denied the request for Geolocation.");
+            alert('Oops! You need to enable location to continue using this service.');
+            break;
+        case error.POSITION_UNAVAILABLE:
+            console.log("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            console.log("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            console.log("An unknown error occurred.");
+            break;
+    }
+    $("#loadButton").html(`Get words`);
+    $("#myButton").html(`Start`);
+}
+  
+function showPosition(position) {
+    userLoc = `${position.coords.latitude}, ${position.coords.longitude}`;
+    localStorage.setItem("dsx_geo", userLoc);
+    now = formatDateTime(new Date());
+    localStorage.setItem("dsx_geox", now);
+
+    $("#loadButton").html(`Get words`);
+    $("#myButton").html(`Start`);
+    document.getElementById("loadButton").disabled = false;
+    stats()
+    .then(data => {
+        apiStats = true;
+    })
+    .catch(err => {
+        console.error('Error fetching data:', err);
+        // Handle errors as needed
     });
 }
 
@@ -62,13 +113,11 @@ function openRandomLink() {
     const newTab = window.open(`https://www.bing.com/search?pglt=171&q=${temp[randomIndex]}&cvid=4f3824c6c7b7447ab4c8dc5c82eff4d7&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQABhAMgYIAhAuGEAyBggDEAAYQDIGCAQQLhhAMgYIBRAuGEAyBggGEC${counter}YQDIGCAcQRRhBMgYICBBFGEHSAQc${counter}NDBqMGoxqAIAsAIA&FORM=ANNTA1&PC=U531`, '_blank');
     counter += 1;
     temp.splice(randomIndex, 1);
-    // console.log(temp);
 
     // Update progress bar
     updateProgress();
 
     if(temp.length == 0){
-        console.log(intId)
         clearInterval(intId);
         setTimeout(() => {
             clearInterval(intId);
@@ -101,7 +150,8 @@ function fetchDataWithApiKey(apiUrl) {
         method: 'GET',
         headers: { 
             'X-Device-Hash': dHash,
-            'X-Session-Id': session
+            'X-Session-Id': session,
+            'X-User-Loc': userLoc
         }
     })
     .then(response => {
@@ -122,21 +172,13 @@ function getStrings() {
     const apiUrl_strings = `https://motionbox.pythonanywhere.com/api/random/string/get?count=${stringCount}`
     const badgeColors = ['is-success', 'is-primary', 'is-warning', 'is-secondary', 'is-info', 'is-danger', 'is-dark'];
 
-    // if(detectMob()) {
-    //     wordMaxCount = 11;
-    //     personMaxCount = 11;
-    //     maxTotal = wordMaxCount + personMaxCount;
-    // }
-
     // Get random words from API
-
     fetchDataWithApiKey(apiUrl_strings)
         .then(data => {
             words = data['response']['strings'];
             document.getElementById("wordCount").innerHTML = `${stringCount} words to search`;
             for (let word of words) {
                 let randomIndex = Math.floor(Math.random() * badgeColors.length);
-                console.log(word);
                 document.getElementById("word-list").innerHTML += `<span class="tag ${badgeColors[randomIndex]}">${word}</span>`;
             }
             document.getElementById("myButton").disabled = false;
@@ -160,6 +202,29 @@ const URLautoClose = urlParams.get('autoClose');
 const URLautoStart = urlParams.get('autoStart');
 const URLstringCount = urlParams.get('stringCount');
 
+$("#loadButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Get words`);
+$("#myButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Start`);
+
+if(localStorage.getItem("dsx_geo") && (hitApi === 'true' || !hitApi)) {
+    let geoD = localStorage.getItem("dsx_geo");
+    let geoX = localStorage.getItem("dsx_geox");
+    let timeDifferenceInMinutes = getTimeDifferenceInMinutes(geoX);
+    if(timeDifferenceInMinutes < 100) {
+        userLoc = geoD;
+        skipGeo = true;
+        $("#loadButton").html(`Get words`);
+        $("#myButton").html(`Start`);
+        stats()
+        .then(data => {
+            apiStats = true;
+        })
+        .catch(err => {
+            console.error('Error fetching data:', err);
+            // Handle errors as needed
+        });
+    }    
+}
+
 if(detectMob()) {
     stringCount = 22;
     startImmediately = true;
@@ -171,6 +236,13 @@ if(detectMob()) {
     $("#platform").html(`<i class="bi bi-display"></i>&ensp;Desktop`);
 }
 
+if (hitApi === 'true' || !hitApi) {
+    connect();
+}else {
+    document.getElementById("loadButton").disabled = false;
+    $("#loadButton").html(`Get words`);
+    $("#myButton").html(`Start`);
+}
 
 // Initialize URL Parameters
 
@@ -186,17 +258,6 @@ if (URLstringCount) {
 if (URLautoStart) {
     startImmediately = URLautoStart;
     console.log(`startImmediately: ${startImmediately}`);
-}
-
-if (hitApi === 'true' || !hitApi) {
-    stats()
-    .then(data => {
-        console.log(data);
-    })
-    .catch(err => {
-        console.error('Error fetching data:', err);
-        // Handle errors as needed
-    });
 }
 
 if (URLautoClose) {
