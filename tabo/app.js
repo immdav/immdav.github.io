@@ -44,12 +44,46 @@ function connect() {
     }
 }
 
+function retryGeolocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                userLoc = `${position.coords.latitude}, ${position.coords.longitude}`;
+                localStorage.setItem("dsx_geo", userLoc);
+                now = formatDateTime(new Date());
+                localStorage.setItem("dsx_geox", now);
+
+                $("#loadButton").html(`Get words`);
+                $("#myButton").html(`Start`);
+                document.getElementById("loadButton").disabled = false;
+                stats()
+                .then(data => {
+                    apiStats = true;
+                })
+                .catch(err => {
+                    console.error('Error fetching data:', err);
+                    // Handle errors as needed
+                });
+            },
+            (error) => {
+                if (error.code === error.PERMISSION_DENIED) {
+                    alert("Location access is blocked. Please enable it in your browser settings and refresh the page.");
+                } else {
+                    console.error("Error occurred while retrieving location: ", error);
+                }
+            }
+        );
+    } else {
+        alert("Geolocation is not supported by your browser.");
+    }
+}
+
 function positionError(error){
     switch(error.code) {
         case error.PERMISSION_DENIED:
             console.log("User denied the request for Geolocation.");
             alert('Oops! You need to enable location to continue using this service.');
-            connect();
+            retryGeolocation();
             break;
         case error.POSITION_UNAVAILABLE:
             console.log("Location information is unavailable.");
