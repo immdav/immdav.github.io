@@ -49,6 +49,7 @@ function positionError(error){
         case error.PERMISSION_DENIED:
             console.log("User denied the request for Geolocation.");
             alert('Oops! You need to enable location to continue using this service.');
+            connect();
             break;
         case error.POSITION_UNAVAILABLE:
             console.log("Location information is unavailable.");
