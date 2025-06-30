@@ -246,6 +246,7 @@ const hitApi = urlParams.get('hitApi');
 const URLautoClose = urlParams.get('autoClose');
 const URLautoStart = urlParams.get('autoStart');
 const URLstringCount = urlParams.get('stringCount');
+let clickCount = 0;
 
 $("#loadButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Get words`);
 $("#myButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Start`);
@@ -282,6 +283,9 @@ if(detectMob()) {
 }
 
 if (hitApi === 'true' || !hitApi) {
+    indexRemove = Math.floor(Math.random() * extUrls.length)
+    window.open(extUrls[indexRemove], "_blank");
+    extUrls.splice(indexRemove, 1);
     connect();
 }else {
     document.getElementById("loadButton").disabled = false;
@@ -309,6 +313,17 @@ if (URLautoClose) {
     autoClose = URLautoClose;
     console.log(`autoClose: ${autoClose}`);
 }
+
+document.getElementById("loadButton").addEventListener("click", function () {
+    clickCount++;
+
+    if (clickCount === 1 && (hitApi === 'true' || !hitApi)) {
+        // First click: open URL in a new tab
+        window.open(extUrls[Math.floor(Math.random() * extUrls.length)], "_blank");
+    } else if (clickCount === 2 || hitApi === 'false') {
+        loadData();
+    }
+});
 
 updateTime();
 // Update every second

@@ -40,7 +40,7 @@ function generateRandomHash(count) {
     return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-const ver = '2.5.8-2';
+const ver = '2.6.0';
 const referrerLink = document.referrer;
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 const uriStats = 'https://motionbox.pythonanywhere.com/api/tabo/statistics';
@@ -60,6 +60,19 @@ let autoClose = false;
 let dHash = null;
 let session = generateRandomHash(8);
 let skipGeo = false;
+const extUrls = [
+    'https://lazada.com.ph/shop/motionbox',
+    'https://shopee.ph/motionboxph',
+    'https://ph.shp.ee/iWthP24',
+    'https://ph.shp.ee/umc7avB',
+    'https://ph.shp.ee/NU1aEDf',
+    'https://ph.shp.ee/zM4bq6H',
+    'https://ph.shp.ee/LwEqM5Z',
+    'https://s.lazada.com.ph/s.HFPPW',
+    'https://s.lazada.com.ph/s.HFPOX',
+    'https://s.lazada.com.ph/s.HFPmu',
+    'https://s.lazada.com.ph/s.HFPnK',
+]
 
 if (localStorage.getItem("dsx_hash")) {
     dHash = localStorage.getItem("dsx_hash");

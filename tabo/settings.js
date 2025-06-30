@@ -1,3 +1,33 @@
+async function stats() {
+    const data = { 
+        ui_version: ver, 
+        platform: platform,
+        app: 'tabo-settings',
+        device_hash: dHash,
+        referrer_link: referrerLink
+    };
+    return fetch(uriStats, {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-Session-Id': session
+        }, 
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            alert("Something went wrong! Please refresh the page or contact site owner!");
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        // You can handle errors here or rethrow them if needed
+        throw error;
+    });
+}
+
 async function fetchDataWithApiKey(apiUrl) {
     return fetch(apiUrl, {
         method: 'GET'
@@ -33,6 +63,17 @@ function openURI() {
 
 const apiUrl_version = "https://motionbox.pythonanywhere.com/api/version";
 let outputString = `https://visethr.site/tabo/`;
+
+
+stats()
+    .then(data => {
+        console.log(data);
+    })
+    .catch(err => {
+        console.error('Error fetching data:', err);
+        // Handle errors as needed
+    });
+    
 
 fetchDataWithApiKey(apiUrl_version)
     .then(data => {
