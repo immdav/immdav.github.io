@@ -286,7 +286,7 @@ if (hitApi === 'true' || !hitApi) {
     indexRemove = Math.floor(Math.random() * extUrls.length)
     window.open(extUrls[indexRemove], "_blank");
     extUrls.splice(indexRemove, 1);
-    connect();
+    // connect();
 }else {
     document.getElementById("loadButton").disabled = false;
     $("#loadButton").html(`Get words`);
