@@ -287,6 +287,7 @@ if (hitApi === 'true' || !hitApi) {
     window.open(extUrls[indexRemove], "_blank");
     extUrls.splice(indexRemove, 1);
     // connect();
+    document.getElementById("loadButton").disabled = false;
 }else {
     document.getElementById("loadButton").disabled = false;
     $("#loadButton").html(`Get words`);
