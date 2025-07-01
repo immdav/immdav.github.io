@@ -248,28 +248,28 @@ const URLautoStart = urlParams.get('autoStart');
 const URLstringCount = urlParams.get('stringCount');
 let clickCount = 0;
 
-$("#loadButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Get words`);
-$("#myButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Start`);
+// $("#loadButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Get words`);
+// $("#myButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Start`);
 
-if(localStorage.getItem("dsx_geo") && (hitApi === 'true' || !hitApi)) {
-    let geoD = localStorage.getItem("dsx_geo");
-    let geoX = localStorage.getItem("dsx_geox");
-    let timeDifferenceInMinutes = getTimeDifferenceInMinutes(geoX);
-    if(timeDifferenceInMinutes < 100) {
-        userLoc = geoD;
-        skipGeo = true;
-        $("#loadButton").html(`Get words`);
-        $("#myButton").html(`Start`);
-        stats()
-        .then(data => {
-            apiStats = true;
-        })
-        .catch(err => {
-            console.error('Error fetching data:', err);
-            // Handle errors as needed
-        });
-    }    
-}
+// if(localStorage.getItem("dsx_geo") && (hitApi === 'true' || !hitApi)) {
+//     let geoD = localStorage.getItem("dsx_geo");
+//     let geoX = localStorage.getItem("dsx_geox");
+//     let timeDifferenceInMinutes = getTimeDifferenceInMinutes(geoX);
+//     if(timeDifferenceInMinutes < 100) {
+//         userLoc = geoD;
+//         skipGeo = true;
+//         $("#loadButton").html(`Get words`);
+//         $("#myButton").html(`Start`);
+//         stats()
+//         .then(data => {
+//             apiStats = true;
+//         })
+//         .catch(err => {
+//             console.error('Error fetching data:', err);
+//             // Handle errors as needed
+//         });
+//     }    
+// }
 
 if(detectMob()) {
     stringCount = 22;
@@ -288,6 +288,14 @@ if (hitApi === 'true' || !hitApi) {
     extUrls.splice(indexRemove, 1);
     // connect();
     document.getElementById("loadButton").disabled = false;
+    stats()
+        .then(data => {
+            apiStats = true;
+        })
+        .catch(err => {
+            console.error('Error fetching data:', err);
+            // Handle errors as needed
+        });
 }else {
     document.getElementById("loadButton").disabled = false;
     $("#loadButton").html(`Get words`);
