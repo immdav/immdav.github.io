@@ -66,6 +66,12 @@
 			justify-content: unset;
 			padding: unset;
 		}
+		.modal-content {
+			background-color: #f8f9fa; /* Light background */
+			border-radius: 0.5rem; /* Rounded corners */
+			padding: 1.5rem; /* Padding inside the modal */
+			box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Subtle shadow */
+		}
 	</style>
 
 	<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
@@ -104,6 +110,23 @@
 	  </nav>
 
 	<div class="container">
+		<div id="myModal" class="modal">
+			<div class="modal-background"></div>
+			<div class="modal-content">
+				<!-- Your modal content here -->
+				<h1 style="font-weight: bold; margin-bottom: 1em;"><i class="fa-solid fa-globe"></i> Domain change</h1>
+				<p>&emsp; Domain will change to <a href="https://visethr.xyz/tabo">visethr.xyz/tabo</a> on Sept 8.</p>
+				<p>&emsp; Make sure to update your bookmarks and links.</p>
+				<p>&emsp; Thank you for using this tool!</p>
+				<p style="margin-top: 1em;">
+					<label class="checkbox">
+						<input type="checkbox" id="neverShowAgain"> Never show again
+					</label>
+				</p>
+			</div>
+			<button class="modal-close is-large" aria-label="close"></button>
+		</div>
+
 		<div class="notification is-warning is-light">
 			<button class="delete"></button>
 			<i class="bi bi-info-circle" style="color: #946c00"></i>&ensp;Make sure to enable pop-ups and redirects for this site before starting.
@@ -154,6 +177,29 @@
 
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
+
+		const modal = document.getElementById('myModal');
+		const closeButton = modal.querySelector('.modal-close');
+		const background = modal.querySelector('.modal-background');
+		const neverShowCheckbox = document.getElementById('neverShowAgain');
+
+		// Check localStorage
+		const hideModal = localStorage.getItem('hideModal');
+
+		if (!hideModal) {
+			modal.classList.add('is-active');
+		}
+
+		const closeModal = () => {
+			if (neverShowCheckbox.checked) {
+			localStorage.setItem('hideModal', 'true');
+			}
+			modal.classList.remove('is-active');
+		};
+
+		[closeButton, background].forEach(el => {
+			el.addEventListener('click', closeModal);
+		});
 
 		// Get all "navbar-burger" elements
 		const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
