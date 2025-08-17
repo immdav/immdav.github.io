@@ -40,10 +40,10 @@ function generateRandomHash(count) {
     return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-const ver = '2.6.3';
+const ver = '2.6.4';
 const referrerLink = document.referrer;
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
-const uriStats = 'https://motionbox.pythonanywhere.com/api/tabo/statistics';
+const uriStats = 'https://api.visethr.site/api/tabo/statistics';
 var words = [];
 var word_count = 0;
 var temp = [];

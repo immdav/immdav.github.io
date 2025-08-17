@@ -61,7 +61,7 @@ function openURI() {
 }
 
 
-const apiUrl_version = "https://motionbox.pythonanywhere.com/api/version";
+const apiUrl_version = "https://api.visethr.site/api/version";
 let outputString = `https://visethr.site/tabo/`;
 
 
