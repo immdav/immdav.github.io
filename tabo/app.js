@@ -153,7 +153,8 @@ function updateProgress() {
 
 function openRandomLink() {
     const randomIndex = Math.floor(Math.random() * words.length);
-    let searchURL = `https://www.bing.com/search?pglt=299&q=${temp[randomIndex]}&cvid=9a7b4ff054dd4605b2ff3eacf2004a3e&gs_lcrp=EgRlZGdlKgYIABBFGDkyBggAEEUYOTIGCAEQABhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAAGEAyBggGEAAYQDIGCAcQABhAMgYICBAAGEDSAQg${counter}MzkxajBqMagCCLACAQ&FORM=ANNTA1&PC=U531`
+    // let searchURL = `https://www.bing.com/search?pglt=299&q=${temp[randomIndex]}&cvid=9a7b4ff054dd4605b2ff3eacf2004a3e&gs_lcrp=EgRlZGdlKgYIABBFGDkyBggAEEUYOTIGCAEQABhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAAGEAyBggGEAAYQDIGCAcQABhAMgYICBAAGEDSAQg${counter}MzkxajBqMagCCLACAQ&FORM=ANNTA1&PC=U531`
+    let searchURL = `https://www.bing.com/search?pglt=299&q=${temp[randomIndex]}&cvid=a4d14cb4595847dabc730ef6cf4ec0de&gs_lcrp=EgRlZGdlKgYIBxAAGEAyBggAEEUYOTIGCAEQABhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAAGEAyBggGEAAYQDIGCAcQABhAMgYICBAAGEDSAQg${counter}MzAyajBqMagCCLACAQ&FORM=ANNTA1&PC=U531`;
     // let searchURL = `https://www.bing.com/search?pglt=171&q=${temp[randomIndex]}&cvid=4f3824c6c7b7447ab4c8dc5c82eff4d7&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQABhAMgYIAhAuGEAyBggDEAAYQDIGCAQQLhhAMgYIBRAuGEAyBggGEC${counter}YQDIGCAcQRRhBMgYICBBFGEHSAQc${counter}NDBqMGoxqAIAsAIA&FORM=ANNTA1&PC=U531`;
     const newTab = window.open(searchURL, '_blank');
     counter += 1;
@@ -174,7 +175,7 @@ function openRandomLink() {
     }
     setTimeout(() => {
         newTab.close();
-    }, 6000);
+    }, 8000);
 }
 
 function startRandomLink() {
@@ -186,7 +187,7 @@ function startRandomLink() {
     if(startImmediately){
         openRandomLink(); // Open a link immediately
     }
-    intId = setInterval(openRandomLink, 8000); // Open a new link every n seconds
+    intId = setInterval(openRandomLink, 10000); // Open a new link every n seconds
     updateProgress();
 }
 
