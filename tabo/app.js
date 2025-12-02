@@ -185,7 +185,7 @@ function startRandomLink() {
     if(startImmediately){
         openRandomLink(); // Open a link immediately
     }
-    intId = setInterval(openRandomLink, 10000); // Open a new link every n seconds
+    intId = setInterval(openRandomLink, sleepSeconds*1000); // Open a new link every n seconds
     updateProgress();
 }
 
@@ -245,6 +245,12 @@ const hitApi = urlParams.get('hitApi');
 const URLautoClose = urlParams.get('autoClose');
 const URLautoStart = urlParams.get('autoStart');
 const URLstringCount = urlParams.get('stringCount');
+const sleepSeconds = (() => {
+  const v = urlParams.get('sleepSeconds');
+  if (v === null || v.trim() === '') return 9;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 9;
+})();
 let clickCount = 0;
 
 // $("#loadButton").html(`<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>&emsp;Get words`);
