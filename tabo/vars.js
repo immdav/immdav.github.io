@@ -40,7 +40,7 @@ function generateRandomHash(count) {
     return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-const ver = '2.7.0';
+const ver = '2.7.1';
 const referrerLink = document.referrer;
 var ms_points = 'https://rewards.bing.com/pointsbreakdown';
 const uriStats = 'https://api.visethr.xyz/api/tabo/statistics';
