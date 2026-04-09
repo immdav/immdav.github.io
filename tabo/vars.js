@@ -42,7 +42,7 @@ function generateRandomHash(count) {
 
 const ver = '2.7.1';
 const referrerLink = document.referrer;
-var ms_points = 'https://rewards.bing.com/pointsbreakdown';
+var ms_points = 'https://rewards.bing.com/earn';
 const uriStats = 'https://api.visethr.xyz/api/tabo/statistics';
 var words = [];
 var word_count = 0;
