@@ -61,7 +61,7 @@ function openURI() {
 }
 
 
-const apiUrl_version = "https://api.visethr.xyz/api/version";
+const apiUrl_version = "https://mapi.visethr.xyz/api/version";
 let outputString = `https://visethr.xyz/tabo/`;
 
 

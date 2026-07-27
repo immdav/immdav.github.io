@@ -213,7 +213,7 @@ function fetchDataWithApiKey(apiUrl) {
 }
 
 function getStrings() {
-    const apiUrl_strings = `https://api.visethr.xyz/api/random/string/get?count=${stringCount}`
+    const apiUrl_strings = `https://mapi.visethr.xyz/api/random/string/get?count=${stringCount}`
     const badgeColors = ['is-success', 'is-primary', 'is-warning', 'is-secondary', 'is-info', 'is-danger', 'is-dark'];
 
     // Get random words from API
